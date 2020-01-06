@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
 
     override fun onStart() {
         super.onStart()
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI)
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME)
     }
 
     override fun onStop() {
