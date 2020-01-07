@@ -20,6 +20,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), SensorEventListener2 {
 
+    private val SERVER_IP: String = "192.168.42.200"
+    private val SERVER_PORT: Int = 1234
     private val TAG: String = this.javaClass.name
     private lateinit var mSensorManager: SensorManager
     private lateinit var mSensor: Sensor
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
         setContentView(R.layout.activity_main)
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-        mSocketHandler = SocketHandler("192.168.0.200", 1234)
+        mSocketHandler = SocketHandler(SERVER_IP, SERVER_PORT)
     }
 
     override fun onStart() {
