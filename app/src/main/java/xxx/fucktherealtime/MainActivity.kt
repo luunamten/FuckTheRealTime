@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener2
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import java.nio.ByteBuffer
 import kotlin.math.cos
@@ -15,12 +16,12 @@ import kotlin.math.sqrt
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import java.util.*
+
 
 
 class MainActivity : AppCompatActivity(), SensorEventListener2 {
 
-    private val SERVER_IP: String = "192.168.42.200"
+    private val SERVER_IP: String = "192.168.0.200"
     private val SERVER_PORT: Int = 1234
     private val TAG: String = this.javaClass.name
     private lateinit var mSensorManager: SensorManager
@@ -53,6 +54,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
     override fun onStop() {
         super.onStop()
         mSensorManager.unregisterListener(this)
+    }
+
+    override fun onBackPressed() {
+
     }
 
     fun AEqualsAxB(A: FloatArray, B: FloatArray) {
@@ -167,5 +172,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
         mSocketHandler.sendBytes(buffer.array())
         //Display matrix
         displayMatrix()
+    }
+
+    fun resetRotation(view: View) {
+        rotationCurrent = floatArrayOf(
+            1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f
+        )
     }
 }
