@@ -1,6 +1,7 @@
 package xxx.fucktherealtime
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener2
@@ -21,7 +22,6 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 class MainActivity : AppCompatActivity(), SensorEventListener2 {
 
-    private val SERVER_IP: String = "192.168.0.200"
     private val SERVER_PORT: Int = 1234
     private val TAG: String = this.javaClass.name
     private lateinit var mSensorManager: SensorManager
@@ -41,14 +41,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val ip: String = getIPPreferences()!!
+        ipEditText.setText(ip)
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-        mSocketHandler = SocketHandler(SERVER_IP, SERVER_PORT)
+        mSocketHandler = SocketHandler(ip, SERVER_PORT)
     }
 
     override fun onStart() {
         super.onStart()
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_GAME)
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_FASTEST)
     }
 
     override fun onStop() {
@@ -175,10 +177,31 @@ class MainActivity : AppCompatActivity(), SensorEventListener2 {
     }
 
     fun resetRotation(view: View) {
+        val ip: String = ipEditText.text.toString()
+        setIPPreferences(ip)
+        mSocketHandler.setAddress(ip, SERVER_PORT)
         rotationCurrent = floatArrayOf(
             1.0f, 0.0f, 0.0f,
             0.0f, 1.0f, 0.0f,
             0.0f, 0.0f, 1.0f
         )
+    }
+
+    private fun getIPPreferences() : String? {
+        val preferences: SharedPreferences =
+            getSharedPreferences("Address",
+                Context.MODE_PRIVATE)
+        return preferences.getString(
+            "IP", "192.168.0.200")
+    }
+
+    private fun setIPPreferences(ip: String) {
+        val preferences: SharedPreferences =
+            getSharedPreferences("Address",
+                Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor =
+            preferences.edit()
+        editor.putString("IP", ip)
+        editor.apply()
     }
 }

@@ -40,6 +40,18 @@ class SocketHandler {
         }
     }
 
+    fun setAddress(serverIP: String, serverPort: Int) {
+        mInetAddress = InetSocketAddress(serverIP,serverPort)
+        try {
+            mSocket.close()
+            mSocketThreadHandler.post {
+                connect()
+            }
+        } catch (exp: Exception) {
+            exp.printStackTrace()
+        }
+    }
+
     fun sendString(data: String) {
         mSocketThreadHandler.post {
             try {
@@ -111,6 +123,7 @@ class SocketHandler {
     }
 
     fun close() {
+        mSocketThread.quitSafely();
         mSocket.close()
     }
 }

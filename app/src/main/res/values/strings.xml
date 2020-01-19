@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FuckTheRealTime</string>
     <string name="restButtonText">Reset</string>
+    <string name="ipEditText_IP">192.168.0.200</string>
 </resources>

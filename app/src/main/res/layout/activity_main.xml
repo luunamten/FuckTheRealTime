@@ -11,13 +11,24 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/ipEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ipEditText_IP" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="resetRotation"
         android:text="@string/restButtonText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_below="@id/ipEditText"
+        android:layout_marginTop="5dp"
         />
 
 </RelativeLayout>
