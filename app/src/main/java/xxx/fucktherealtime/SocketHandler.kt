@@ -44,11 +44,12 @@ class SocketHandler {
         mInetAddress = InetSocketAddress(serverIP,serverPort)
         try {
             mSocket.close()
+        } catch (exp: Exception) {
+            exp.printStackTrace()
+        } finally {
             mSocketThreadHandler.post {
                 connect()
             }
-        } catch (exp: Exception) {
-            exp.printStackTrace()
         }
     }
 
